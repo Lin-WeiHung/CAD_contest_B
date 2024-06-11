@@ -16,13 +16,10 @@ void Flipflop::setWidth(float width) { this->width = width; }
 void Flipflop::setHeight(float height) { this->height = height; }
 void Flipflop::setArea(float width, float height) { this->area = width * height; }
 void Flipflop::setPinCount(int pinCount) { this->pinCount = pinCount; }
-float Flipflop::getWidth() { return width; }
-float Flipflop::getHeight() { return height; }
+double Flipflop::getWidth() { return width; }
+double Flipflop::getHeight() { return height; }
+double Flipflop::getArea() { return area; }
 void Flipflop::coutt()
 {
-    cout << bits << endl;
-    cout << width << endl;
-    cout << height << endl;
-    cout << area << endl;
-    cout << pinCount << endl;
+    cout << name << ": " << "bit " << bits << "; width: " << width << "; height: " << height << "; area: " << area << "; pincount: " << pinCount << endl;
 }

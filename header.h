@@ -8,4 +8,6 @@
 
 using namespace std;
 
+#define ARGV_INPUT_INDEX 1
+
 #endif

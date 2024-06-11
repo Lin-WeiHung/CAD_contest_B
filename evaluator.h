@@ -3,21 +3,25 @@
 
 #include "header.h"
 #include "flipflop.h"
+#include "cell.h"
+
+#define FEATURE_START 0
 
 class Evaluator
 {
 public:
     Evaluator();
-    void parser();
+    bool parser(char* input_file);
+    //test
+    void parser_test();
 
 private:
-    float alpha;
-    float beta;
-    float gamma;
-    float lambda;
+    double alpha;
+    double beta;
+    double gamma;
+    double lambda;
     vector<Flipflop> FlipFlop;
-
-    ifstream file;
+    vector<Cell> cells;
 };
 
 #endif

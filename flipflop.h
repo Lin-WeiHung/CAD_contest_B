@@ -13,16 +13,17 @@ public:
     void setHeight(float);
     void setArea(float, float);
     void setPinCount(int);
-    float getWidth();
-    float getHeight();
+    double getWidth();
+    double getHeight();
+    double getArea();
     void coutt();
     
 private:
     int bits;
     string name;
-    float width;
-    float height;
-    float area;
+    double width;
+    double height;
+    double area;
     int pinCount;
 };
 
