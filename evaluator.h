@@ -8,16 +8,14 @@ class Evaluator
 {
 public:
     Evaluator();
-    void parser();
+    bool parser(char* input_file);
 
 private:
-    float alpha;
-    float beta;
-    float gamma;
-    float lambda;
+    double alpha;
+    double beta;
+    double gamma;
+    double lambda;
     vector<Flipflop> FlipFlop;
-
-    ifstream file;
 };
 
 #endif

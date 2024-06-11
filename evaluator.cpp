@@ -9,17 +9,19 @@ Evaluator::Evaluator()
     lambda = 0;
 }
 
-void Evaluator::parser()
+bool Evaluator::parser(char* input_file)
 {
-    string line;
+    cout << "Start reading " << input_file << endl;
 
-    file.open("testcase1.txt");
+    fstream infile(input_file, ios::in);
 
-    if (!file.is_open()) {
-        cout << "Failed to open file." << endl;
+    if (!infile) {
+        cout << "Input file " << input_file << " doesn't exist ..." << endl;
+        return false;
     }
 
-    while (getline(file, line)) {
+    string line;
+    while (getline(infile, line)) {
         string feature;
         string temp;
         Flipflop f;
