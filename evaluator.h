@@ -1,14 +1,13 @@
-#include <iostream>
-#include <vector>
-#include <fstream>
+#ifndef _EVALUATOR_H_
+#define _EVALUATOR_H_
+
+#include "header.h"
 #include "flipflop.h"
-using namespace std;
 
-
-class evaluator
+class Evaluator
 {
 public:
-    evaluator();
+    Evaluator();
     void parser();
 
 private:
@@ -16,7 +15,9 @@ private:
     float beta;
     float gamma;
     float lambda;
-    vector<flipflop> FlipFlop;
+    vector<Flipflop> FlipFlop;
 
     ifstream file;
 };
+
+#endif

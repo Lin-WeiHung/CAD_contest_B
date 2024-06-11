@@ -1,11 +1,12 @@
-#include <iostream>
-#include <string>
-using namespace std;
+#ifndef _FLIPFLOP_H_
+#define _FLIPFLOP_H_
 
-class flipflop
+#include "header.h"
+
+class Flipflop
 {
 public:
-    flipflop();
+    Flipflop();
     void setBits(int);
     void setName(string);
     void setWidth(float);
@@ -24,3 +25,5 @@ private:
     float area;
     int pinCount;
 };
+
+#endif
