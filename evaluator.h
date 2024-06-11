@@ -4,11 +4,15 @@
 #include "header.h"
 #include "flipflop.h"
 
+#define FEATURE_START 0
+
 class Evaluator
 {
 public:
     Evaluator();
     bool parser(char* input_file);
+    //test
+    void parser_test();
 
 private:
     double alpha;

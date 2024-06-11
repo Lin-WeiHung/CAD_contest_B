@@ -7,6 +7,6 @@ int main(int argc, char* argv[])
     if (!evaluator.parser(argv[ARGV_INPUT_INDEX])){
         return false;
     }
-
+    evaluator.parser_test();
     return 0;
 }

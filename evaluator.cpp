@@ -27,7 +27,7 @@ bool Evaluator::parser(char* input_file)
         Flipflop f;
 
         //line == "FlipFlop 1 FF1 5.0 10.0 3"
-        feature = line.substr(0, line.find(" "));
+        feature = line.substr(FEATURE_START, line.find(" "));
         line = line.substr(line.find(" ") + 1);
 
         if (feature == "Alpha") alpha = stof(line);
@@ -67,4 +67,13 @@ bool Evaluator::parser(char* input_file)
             FlipFlop.push_back(f);
         }
     }
+
+    return true;
+}
+
+void Evaluator::parser_test(){
+    cout << "alpha is " << alpha << endl;
+    cout << "beta is " << beta << endl;
+    cout << "gamma is " << gamma << endl;
+    cout << "lambda is " << lambda << endl;
 }
