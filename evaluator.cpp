@@ -1,12 +1,7 @@
-#include <iostream>
-#include <string>
-#include <fstream>
-#include <vector>
+#include "header.h"
 #include "evaluator.h"
-using namespace std;
 
-
-evaluator::evaluator()
+Evaluator::Evaluator()
 {
     alpha = 0;
     beta = 0;
@@ -14,7 +9,7 @@ evaluator::evaluator()
     lambda = 0;
 }
 
-void evaluator::parser()
+void Evaluator::parser()
 {
     string line;
 
@@ -27,7 +22,7 @@ void evaluator::parser()
     while (getline(file, line)) {
         string feature;
         string temp;
-        flipflop f;
+        Flipflop f;
 
         //line == "FlipFlop 1 FF1 5.0 10.0 3"
         feature = line.substr(0, line.find(" "));

@@ -6,7 +6,7 @@ using namespace std;
 
 int main()
 {
-    evaluator e;
+    Evaluator e;
     e.parser();
 
 
