@@ -33,10 +33,10 @@ void evaluator::parser()
         feature = line.substr(0, line.find(" "));
         line = line.substr(line.find(" ") + 1);
 
-        if (feature == "Alpha") alpha = stof(feature);
-        else if (feature == "Beta") beta = stof(feature);
-        else if (feature == "Gamma") gamma = stof(feature);
-        else if (feature == "Lambda") lambda = stof(feature);
+        if (feature == "Alpha") alpha = stof(line);
+        else if (feature == "Beta") beta = stof(line);
+        else if (feature == "Gamma") gamma = stof(line);
+        else if (feature == "Lambda") lambda = stof(line);
         else if (feature == "FlipFlop") {
             
             //line == "1 FF1 5.0 10.0 3 "
