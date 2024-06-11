@@ -3,6 +3,7 @@
 
 #include "header.h"
 #include "flipflop.h"
+#include "cell.h"
 
 #define FEATURE_START 0
 
@@ -20,6 +21,7 @@ private:
     double gamma;
     double lambda;
     vector<Flipflop> FlipFlop;
+    vector<Cell> cells;
 };
 
 #endif

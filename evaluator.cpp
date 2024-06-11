@@ -24,10 +24,8 @@ bool Evaluator::parser(char* input_file)
     while (getline(infile, line)) {
         string feature;
         string temp;
-        Flipflop f;
 
-        //line == "FlipFlop 1 FF1 5.0 10.0 3"
-        feature = line.substr(FEATURE_START, line.find(" "));
+        feature = line.substr(0, line.find(" "));
         line = line.substr(line.find(" ") + 1);
 
         if (feature == "Alpha") alpha = stof(line);
@@ -35,30 +33,26 @@ bool Evaluator::parser(char* input_file)
         else if (feature == "Gamma") gamma = stof(line);
         else if (feature == "Lambda") lambda = stof(line);
         else if (feature == "FlipFlop") {
-            
-            //line == "1 FF1 5.0 10.0 3 "
+            Flipflop f;
+
             temp = line.substr(0, line.find(" "));
             line = line.substr(line.find(" ") + 1);
             f.setBits(stoi(temp));
 
-            //line == "FF1 5.0 10.0 3 "
             temp = line.substr(0, line.find(" "));
             line = line.substr(line.find(" ") + 1);
             f.setName(temp);
 
-            //line == "5.0 10.0 3 "
             temp = line.substr(0, line.find(" "));
             line = line.substr(line.find(" ") + 1);
             f.setWidth(stof(temp));
 
-            //line == "10.0 3 "
             temp = line.substr(0, line.find(" "));
             line = line.substr(line.find(" ") + 1);
             f.setHeight(stof(temp));
 
             f.setArea(f.getWidth(), f.getHeight());
 
-            //line == "3 "
             temp = line;
             f.setPinCount(stoi(temp));
 
@@ -66,6 +60,45 @@ bool Evaluator::parser(char* input_file)
 
             FlipFlop.push_back(f);
         }
+        else if (feature == "Inst") {
+            Cell c;
+
+            // Read cell name
+            temp = line.substr(0, line.find(" "));
+            line = line.substr(line.find(" ") + 1);
+            c.setCellName(temp);
+
+            // Read FF type
+            temp = line.substr(0, line.find(" "));
+            line = line.substr(line.find(" ") + 1);
+            c.setFFType(temp);
+
+            // Read posX
+            temp = line.substr(0, line.find(" "));
+            line = line.substr(line.find(" ") + 1);
+            c.setPosX(stof(temp));
+
+            // Read posY
+            temp = line;
+            c.setPosY(stof(temp));
+
+            cells.push_back(c);
+        }
+        else if (feature == "TimingSlack") {
+            // TimingSlack C1 D 1.0
+            string cellName = line.substr(0, line.find(" "));
+            line = line.substr(line.find(" ") + 1);
+            line = line.substr(line.find(" ") + 1);  // Skip the pin identifier
+            float slack = stof(line);
+
+            for (auto& c : cells) {
+                if (c.getCellName() == cellName) {
+                    c.setTimingSlack(slack);
+                    break;
+                }
+            }
+        }
+        // Handle other features here
     }
 
     return true;
@@ -76,4 +109,11 @@ void Evaluator::parser_test(){
     cout << "beta is " << beta << endl;
     cout << "gamma is " << gamma << endl;
     cout << "lambda is " << lambda << endl;
+
+    for(auto& FF: FlipFlop){
+        FF.coutt();
+    }
+    for(auto& cell: cells){
+        cell.print();
+    }
 }
