@@ -21,6 +21,7 @@ bool Evaluator::parser(char* input_file)
     }
 
     string line;
+    int FFPinCount = 0;
     while (getline(infile, line)) {
         string feature;
         string temp;
@@ -28,37 +29,62 @@ bool Evaluator::parser(char* input_file)
         feature = line.substr(0, line.find(" "));
         line = line.substr(line.find(" ") + 1);
 
-        if (feature == "Alpha") alpha = stof(line);
-        else if (feature == "Beta") beta = stof(line);
-        else if (feature == "Gamma") gamma = stof(line);
-        else if (feature == "Lambda") lambda = stof(line);
+        if (feature == "Alpha") alpha = stod(line);
+        else if (feature == "Beta") beta = stod(line);
+        else if (feature == "Gamma") gamma = stod(line);
+        else if (feature == "Lambda") lambda = stod(line);
         else if (feature == "FlipFlop") {
             Flipflop f;
 
+            // Read flipflop bits
             temp = line.substr(0, line.find(" "));
             line = line.substr(line.find(" ") + 1);
             f.setBits(stoi(temp));
 
+            // Read flipflop name
             temp = line.substr(0, line.find(" "));
             line = line.substr(line.find(" ") + 1);
             f.setName(temp);
 
+            // Read flipflop width
             temp = line.substr(0, line.find(" "));
             line = line.substr(line.find(" ") + 1);
-            f.setWidth(stof(temp));
+            f.setWidth(stod(temp));
 
+            // Read flipflop height
             temp = line.substr(0, line.find(" "));
             line = line.substr(line.find(" ") + 1);
-            f.setHeight(stof(temp));
+            f.setHeight(stod(temp));
 
+            // Set flipflop area
             f.setArea(f.getWidth(), f.getHeight());
 
+            // Read flipflop pin count
             temp = line;
             f.setPinCount(stoi(temp));
-
-            f.coutt();
+            FFPinCount = stoi(temp);
 
             FlipFlop.push_back(f);
+        }
+        else if (feature == "Pin" && FFPinCount > 0) {
+            Pin p;
+
+            // Read flipflop pin name
+            temp = line.substr(0, line.find(" "));
+            line = line.substr(line.find(" ") + 1);
+            p.pinName = temp;
+
+            // Read flipflop pin X
+            temp = line.substr(0, line.find(" "));
+            line = line.substr(line.find(" ") + 1);
+            p.pinX = stod(temp);
+
+            // Read flipflop pin Y
+            temp = line;
+            p.pinY = stod(temp);
+            FlipFlop[FlipFlop.size()-1].setFFPin(p);
+
+            FFPinCount--;
         }
         else if (feature == "Inst") {
             Cell c;
@@ -76,11 +102,11 @@ bool Evaluator::parser(char* input_file)
             // Read posX
             temp = line.substr(0, line.find(" "));
             line = line.substr(line.find(" ") + 1);
-            c.setPosX(stof(temp));
+            c.setPosX(stod(temp));
 
             // Read posY
             temp = line;
-            c.setPosY(stof(temp));
+            c.setPosY(stod(temp));
 
             cells.push_back(c);
         }
@@ -89,7 +115,7 @@ bool Evaluator::parser(char* input_file)
             string cellName = line.substr(0, line.find(" "));
             line = line.substr(line.find(" ") + 1);
             line = line.substr(line.find(" ") + 1);  // Skip the pin identifier
-            float slack = stof(line);
+            double slack = stod(line);
 
             for (auto& c : cells) {
                 if (c.getCellName() == cellName) {
@@ -111,7 +137,8 @@ void Evaluator::parser_test(){
     cout << "lambda is " << lambda << endl;
 
     for(auto& FF: FlipFlop){
-        FF.coutt();
+        FF.FFcout();
+        FF.pinCout();
     }
     for(auto& cell: cells){
         cell.print();
