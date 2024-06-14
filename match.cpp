@@ -15,29 +15,21 @@ bool Match::parser_outfile(char* output_file)
         cout << "Input file " << output_file << " doesn't exist ..." << endl;
         return false;
     }
-    Cell c1; 
+    Cell cell; 
     string line;
     while (getline(outfile, line)) 
     {
         vector<string>tempt;
         tempt=Match::cut_tokens(line);
-        for(int i=0; i<tempt.size();i++){cout<<tempt[i]<<"  ";}
-        cout<<endl;
-        if(tempt[0]=="CellInst" && tempt.size()==2)
-        {
-            cell_num=stoi(tempt[1]);
-            cout<<" cell instance num : "<<cell_num<<endl;  
-        }
         
         if(tempt[0]=="Inst" && tempt.size()==5)
         {
-            c1.setCellName(tempt[1]);
-            c1.setFFType(tempt[2]);
-            c1.setPosX(stof(tempt[3]));
-            c1.setPosY(stof(tempt[4]));
-            newFF_list.push_back(c1);
+            cell.setCellName(tempt[1]);
+            cell.setFFType(tempt[2]);
+            cell.setPosX(stof(tempt[3]));
+            cell.setPosY(stof(tempt[4]));
+            output_cells.push_back(cell);
         } 
-
         else if(tempt.size()==3)
         {   
             line_vec1 = tempt[0];
@@ -58,8 +50,7 @@ bool Match::parser_outfile(char* output_file)
 
 void Match::parser_test()
 {
-    cout<<"total inst num : "<<cell_num<<endl;
-    for(auto& cell: newFF_list){
+    for(auto& cell: output_cells){
         cell.print();
     }
     for (map<string, pair_data>::const_iterator it = match_data.begin(); it != match_data.end(); ++it) {

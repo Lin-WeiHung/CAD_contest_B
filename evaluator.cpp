@@ -9,6 +9,15 @@ Evaluator::Evaluator()
     lambda = 0;
 }
 
+vector<string> Evaluator::cut_tokens(string line)
+{
+    istringstream iss(line);
+    string word;
+    vector<string> words;
+    while(iss >> word) words.push_back(word);
+    return words;
+}
+
 bool Evaluator::parser(char* input_file)
 {
     cout << "Start reading " << input_file << endl;
@@ -64,7 +73,7 @@ bool Evaluator::parser(char* input_file)
             f.setPinCount(stoi(temp));
             FFPinCount = stoi(temp);
 
-            FlipFlop.push_back(f);
+            flipflop.push_back(f);
         }
         else if (feature == "Pin" && FFPinCount > 0) {
             Pin p;
@@ -82,7 +91,7 @@ bool Evaluator::parser(char* input_file)
             // Read flipflop pin Y
             temp = line;
             p.pinY = stod(temp);
-            FlipFlop[FlipFlop.size()-1].setFFPin(p);
+            flipflop[flipflop.size()-1].setFFPin(p);
 
             FFPinCount--;
         }
@@ -108,7 +117,7 @@ bool Evaluator::parser(char* input_file)
             temp = line;
             c.setPosY(stod(temp));
 
-            cells.push_back(c);
+            input_cells.push_back(c);
         }
         else if (feature == "TimingSlack") {
             // TimingSlack C1 D 1.0
@@ -117,7 +126,7 @@ bool Evaluator::parser(char* input_file)
             line = line.substr(line.find(" ") + 1);  // Skip the pin identifier
             double slack = stod(line);
 
-            for (auto& c : cells) {
+            for (auto& c : input_cells) {
                 if (c.getCellName() == cellName) {
                     c.setTimingSlack(slack);
                     break;
@@ -130,17 +139,77 @@ bool Evaluator::parser(char* input_file)
     return true;
 }
 
+bool Evaluator::parser_outfile(char* output_file)
+{
+    string temp1, temp2;
+    string line_vec1, line_vec2;
+
+    cout << "Start reading " << output_file << endl;
+    fstream outfile(output_file, ios::in); 
+    if (!outfile) 
+    {
+        cout << "Input file " << output_file << " doesn't exist ..." << endl;
+        return false;
+    }
+    Cell cell; 
+    string line;
+    while (getline(outfile, line)) 
+    {
+        vector<string>tempt;
+        tempt=cut_tokens(line);
+        
+        if(tempt[0]=="Inst" && tempt.size()==5)
+        {
+            cell.setCellName(tempt[1]);
+            cell.setFFType(tempt[2]);
+            cell.setPosX(stof(tempt[3]));
+            cell.setPosY(stof(tempt[4]));
+            output_cells.push_back(cell);
+        } 
+        else if(tempt.size()==3)
+        {   
+            line_vec1 = tempt[0];
+            temp1 = line_vec1.substr(0, line.find("/"));  //temp1:origin ff name 
+            line_vec1 = line_vec1.substr(line.find("/") + 1); //line_vec1:origin ff pin
+            
+            line_vec2 = tempt[2];
+            temp2 = line_vec2.substr(0, line.find("/"));  //temp2:new match ff name 
+            line_vec2 = line_vec2.substr(line.find("/") + 1); //line_vec2:new match ff pin
+            
+            match_data[temp1].new_ff=temp2;
+            match_data[temp1].pair[line_vec1]=line_vec2;
+        }
+    }
+
+    return true;
+}
+
 void Evaluator::parser_test(){
+    cout << "Start printing data for test: " << endl << endl;
+
     cout << "alpha is " << alpha << endl;
     cout << "beta is " << beta << endl;
     cout << "gamma is " << gamma << endl;
     cout << "lambda is " << lambda << endl;
 
-    for(auto& FF: FlipFlop){
+    cout << endl << "--------------------FF_lib--------------------" << endl << endl;
+    for(auto& FF: flipflop){
         FF.FFcout();
         FF.pinCout();
     }
-    for(auto& cell: cells){
+    cout << endl << "--------------------input_cells--------------------" << endl << endl;
+    for(auto& cell: input_cells){
         cell.print();
     }
+    cout << endl << "--------------------output_cells--------------------" << endl << endl;
+    for(auto& cell: output_cells){
+        cell.print();
+    }
+    for (map<string, pair_data>::const_iterator it = match_data.begin(); it != match_data.end(); ++it) {
+        cout << "origin ff : " << it->first << ", new ff: " << it->second.new_ff << endl;
+        for (map<string, string>::const_iterator sub_it = it->second.pair.begin(); sub_it != it->second.pair.end(); ++sub_it) {
+            cout << "\t origin pin : " << sub_it->first << ", after mapping pin : " << sub_it->second << endl;
+        }
+    }
 }
+

@@ -18,8 +18,7 @@ public:
     void parser_test();
 
 private:
-    int cell_num;
-    vector<Cell>newFF_list;
+    vector<Cell>output_cells;
     map<string, pair_data>match_data;
 };
 #endif

@@ -1,6 +1,5 @@
 #include "header.h"
 #include "evaluator.h"
-#include "match.h"
 
 int main(int argc, char* argv[])
 {
@@ -8,12 +7,12 @@ int main(int argc, char* argv[])
     if (!evaluator.parser(argv[ARGV_INPUT_INDEX])){
         return false;
     }
-    evaluator.parser_test();
 
-    Match match;
-    if (!match.parser_outfile(argv[ARGV_OUTPUT_INDEX])){
+    if (!evaluator.parser_outfile(argv[ARGV_OUTPUT_INDEX])){
         return false;
     }
-    match.parser_test();
+
+    evaluator.parser_test();
+
     return 0;
 }
