@@ -23,7 +23,8 @@ public:
     bool parser_outfile(char* output_file);
     //test
     void parser_test(); 
-
+    void CostFunction();
+    
 private:
     double alpha;
     double beta;

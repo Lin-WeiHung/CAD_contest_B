@@ -133,9 +133,28 @@ bool Evaluator::parser(char* input_file)
                 }
             }
         }
+        else if(feature == "GatePower"){
+            Flipflop f;
+            string ffName = line.substr(0, line.find(" "));
+            line = line.substr(line.find(" ") + 1);
+            double power = stod(line);
+            for(auto& f : flipflop){
+                if(f.getName() == ffName){
+                    f.setPower(power);
+                    break;
+                }
+            }
+            for(auto& f : flipflop){
+                for(auto& c : input_cells){
+                    if(f.getName()==c.getFFType()){
+                        c.setPower(f.getPower());
+                        c.setArea(f.getArea());
+                    }
+                }
+            }
+        }
         // Handle other features here
     }
-
     return true;
 }
 
@@ -164,6 +183,7 @@ bool Evaluator::parser_outfile(char* output_file)
             cell.setFFType(tempt[2]);
             cell.setPosX(stof(tempt[3]));
             cell.setPosY(stof(tempt[4]));
+
             output_cells.push_back(cell);
         } 
         else if(tempt.size()==3)
@@ -181,6 +201,14 @@ bool Evaluator::parser_outfile(char* output_file)
         }
     }
 
+    for(auto& f : flipflop){
+        for(auto& c : output_cells){
+            if(f.getName()==c.getFFType()){
+                c.setPower(f.getPower());
+                c.setArea(f.getArea());
+            }
+        }
+    }
     return true;
 }
 
@@ -211,5 +239,17 @@ void Evaluator::parser_test(){
             cout << "\t origin pin : " << sub_it->first << ", after mapping pin : " << sub_it->second << endl;
         }
     }
+}
+
+void Evaluator::CostFunction(){
+    float power_total=0;
+    float area_total=0;
+    for(auto& c : output_cells){
+        power_total = c.getPower() + power_total;
+        area_total = c.getArea() + area_total;
+    }
+    
+    cout<<"total power: "<< power_total
+        <<"\t total area: "<< area_total <<endl;
 }
 

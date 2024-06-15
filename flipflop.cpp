@@ -8,6 +8,7 @@ Flipflop::Flipflop()
     height = 0;
     area = 0;
     pinCount = 0;
+    power = 0;
 }
 
 void Flipflop::setBits(int bits) { this->bits = bits; }
@@ -16,13 +17,16 @@ void Flipflop::setWidth(double width) { this->width = width; }
 void Flipflop::setHeight(double height) { this->height = height; }
 void Flipflop::setArea(double width, double height) { this->area = width * height; }
 void Flipflop::setPinCount(int pinCount) { this->pinCount = pinCount; }
+void Flipflop::setPower(double power){this->power = power;};
 double Flipflop::getWidth() { return width; }
 double Flipflop::getHeight() { return height; }
 double Flipflop::getArea() { return area; }
+string Flipflop::getName() { return name; }
+float Flipflop::getPower() { return power;}
 void Flipflop::setFFPin(Pin p) { pins.push_back(p); }
 void Flipflop::FFcout()
 {
-    cout << name << ": " << "bit: " << bits << "; width: " << width << "; height: " << height << "; area: " << area << "; pincount: " << pinCount << endl;
+    cout << name << ": " << "bit: " << bits << "; width: " << width << "; height: " << height << "; area: " << area << "; pincount: " << pinCount <<"; gatePower: "<< power<< endl;
 }
 void Flipflop::pinCout()
 {
