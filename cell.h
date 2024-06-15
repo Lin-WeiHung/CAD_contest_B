@@ -10,6 +10,8 @@ private:
     float posX;
     float posY;
     float timingSlack;
+    float power;
+    float area_c;
 
 public:
     Cell();
@@ -18,11 +20,15 @@ public:
     void setPosX(float x);
     void setPosY(float y);
     void setTimingSlack(float slack);
+    void setPower(float gatePower);
+    void setArea(float area);
     string getCellName() const;
     string getFFType() const;
     float getPosX() const;
     float getPosY() const;
     float getTimingSlack() const;
+    float getPower() const;
+    float getArea() const;
     void print() const;
 };
 

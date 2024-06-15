@@ -21,10 +21,13 @@ public:
     void setWidth(double);
     void setHeight(double);
     void setArea(double, double);
+    void setPower(double);
     void setPinCount(int);
     double getWidth();
     double getHeight();
     double getArea();
+    string getName();
+    float getPower();
     void setFFPin(Pin);
     void FFcout();
     void pinCout();
@@ -34,6 +37,7 @@ private:
     double width;
     double height;
     double area;
+    double power;
     int pinCount;
     vector<Pin> pins;
 };

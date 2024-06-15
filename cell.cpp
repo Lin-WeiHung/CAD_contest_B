@@ -24,6 +24,13 @@ void Cell::setTimingSlack(float slack) {
     timingSlack = slack;
 }
 
+void Cell::setPower(float gatePower) {
+    power = gatePower;
+}
+
+void Cell::setArea(float area) {
+    area_c = area;
+}
 string Cell::getCellName() const {
     return cellName;
 }
@@ -44,8 +51,18 @@ float Cell::getTimingSlack() const {
     return timingSlack;
 }
 
+float Cell::getPower() const {
+    return power;
+}
+
+float Cell::getArea() const {
+    return area_c;
+}
+
 void Cell::print() const {
     cout << "Cell Name: " << cellName << ", FF Type: " << ffType
          << ", PosX: " << posX << ", PosY: " << posY
-         << ", Timing Slack: " << timingSlack << endl;
+         << ", Timing Slack: " << timingSlack
+         << ", Power: " << power
+         << ", Area: " << area_c << endl;
 }
