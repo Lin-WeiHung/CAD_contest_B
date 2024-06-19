@@ -7,6 +7,7 @@
 #include <vector>
 #include <map>
 #include <sstream>
+#include <cmath>
 
 using namespace std;
 
