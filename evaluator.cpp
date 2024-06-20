@@ -265,15 +265,18 @@ bool Evaluator::parser_outfile(char* output_file)
         else if(tempt.size()==3)
         {   
             line_vec1 = tempt[0];
-            temp1 = line_vec1.substr(0, line.find("/"));  //temp1:origin ff name 
-            line_vec1 = line_vec1.substr(line.find("/") + 1); //line_vec1:origin ff pin
+            temp1 = line_vec1.substr(0, line_vec1.find("/"));  //temp1:origin ff name 
+            line_vec1 = line_vec1.substr(line_vec1.find("/") + 1); //line_vec1:origin ff pin
             
             line_vec2 = tempt[2];
-            temp2 = line_vec2.substr(0, line.find("/"));  //temp2:new match ff name 
-            line_vec2 = line_vec2.substr(line.find("/") + 1); //line_vec2:new match ff pin
+            temp2 = line_vec2.substr(0, line_vec2.find("/"));  //temp2:new match ff name 
+            line_vec2 = line_vec2.substr(line_vec2.find("/") + 1); //line_vec2:new match ff pin
             
             match_data[temp1].new_ff=temp2;
             match_data[temp1].pair[line_vec1]=line_vec2;
+            //cout<<"first string: "<<tempt[0]<<"  third string: "<<tempt[2]<<endl;
+            //cout<<"origin ff name: "<<temp1<<" new matching ff name: "<<temp2<<endl;
+            //cout<<"origin ff pin: "<<line_vec1<<" new match ff pin: "<<line_vec2<<endl;
         }
     }
 
